@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "离线更新 / 安装",
+    "description": "从本地 tgz 安装或更新插件；远程 tgz 先下载到本地再安装，来源显示为本地路径。",
+    "detail": "docs/DETAIL.md"
+  }
+}

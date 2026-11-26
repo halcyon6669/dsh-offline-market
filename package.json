@@ -1,0 +1,41 @@
+{
+  "name": "@local/dsh-offline-market",
+  "version": "1.0.0",
+  "private": true,
+  "description": "离线插件市场：本地 tgz 安装/更新，远程 tgz 先下载到本地再装，来源显示为本地路径。 · Offline plugin market: install/update from local tgz; remote tgz is downloaded locally first so the source shows a local path.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg",
+    "README.md"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "icon": "icon.svg"
+}

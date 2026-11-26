@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Offline Updates / Install",
+    "description": "Install or update plugins from local .tgz files; remote tgz is downloaded locally first so the source shows a local path.",
+    "detail": "docs/DETAIL.md"
+  }
+}

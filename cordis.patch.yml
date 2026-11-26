@@ -1,0 +1,5 @@
+- insert:
+    - id: offline-market
+      name: '@local/dsh-offline-market'
+      config:
+        tgzDir: ''
