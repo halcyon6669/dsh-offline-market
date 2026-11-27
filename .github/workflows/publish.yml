@@ -9,6 +9,8 @@
 #   Repository: dsh-offline-market
 #   Workflow:   publish.yml        (basename only, not the full path)
 #   Environment: (leave blank)
+#   Allowed actions: tick "npm publish" (direct publish) -- this workflow uses
+#                    `npm publish`, not the staged-publish flow.
 #
 # Release flow: bump package.json version, commit, push a `v<version>` tag.
 # For a brand-new package, add the trusted publisher on npmjs.com first
