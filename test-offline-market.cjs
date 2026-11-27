@@ -378,6 +378,15 @@ const fetchStub = async (url) => {
       assert.ok(/'\/remove'/.test(clientSrc), 'client posts to /remove');
       assert.ok(/'卸载'/.test(clientSrc), 'uninstall button label present');
     });
+    ok('has a plugin-name search box that filters rows', () => {
+      assert.ok(/const \[query, setQuery\] = useState\(''\)/.test(clientSrc), 'query state present');
+      assert.ok(/placeholder: '搜索插件名'/.test(clientSrc), 'search placeholder present');
+      assert.ok(/const keyword = query\.trim\(\)\.toLowerCase\(\)/.test(clientSrc), 'keyword normalized');
+      assert.ok(/rows\.filter\(\(r\) => String\(r\.name \|\| ''\)\.toLowerCase\(\)\.indexOf\(keyword\) !== -1\)/.test(clientSrc), 'filters by name');
+      assert.ok(/visibleRows\.map\(\(row\)/.test(clientSrc), 'list renders filtered rows');
+      assert.ok(/没有匹配/.test(clientSrc), 'empty-result message present');
+      assert.ok(/· 匹配 ' \+ visibleRows\.length/.test(clientSrc), 'count reflects matches');
+    });
     ok('client.js syntax valid', () => { new Function(clientSrc.replace(/^window\.__ModuleLoader__\.load\(/, 'return (').replace(/\}\);\s*$/, '};')); });
 
     console.log('\n' + passed + ' passed, ' + failed + ' failed');

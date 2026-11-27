@@ -13,11 +13,14 @@ window.__ModuleLoader__.load({
 .om-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .om-title{margin:0;font-size:16px;font-weight:600}
 .om-sub{margin:4px 0 0;color:var(--dsw-alias-label-secondary);font-size:12px}
+.om-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.om-toolbar-stat{margin:0;flex:1;min-width:0}
 .om-card{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid var(--dsw-alias-border-l2);border-radius:8px;background:var(--dsw-alias-bg-layer-1)}
 .om-card-title{font-weight:600}
 .om-rowline{display:flex;gap:8px;align-items:center}
 .om-dir-path{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-primary);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .om-input{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--dsw-alias-border-l2);border-radius:6px;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font:inherit}
+.om-toolbar .om-search{flex:none;width:220px;min-width:120px;padding:6px 9px;font-size:12px}
 .om-btn{flex:none;padding:7px 12px;border:1px solid var(--dsw-alias-border-l3);border-radius:6px;background:var(--dsw-alias-button-primary-fill);color:var(--dsw-alias-label-on-color);cursor:pointer;font:inherit;white-space:nowrap}
 .om-btn:hover{background:var(--dsw-alias-button-primary-hover)}
 .om-btn:disabled{opacity:.55;cursor:default}
@@ -76,6 +79,7 @@ window.__ModuleLoader__.load({
       const [savingDir, setSavingDir] = useState(false)
       const [installingUrl, setInstallingUrl] = useState(false)
       const [busyName, setBusyName] = useState('')
+      const [query, setQuery] = useState('')
       const [msg, setMsg] = useState('')
       const [msgKind, setMsgKind] = useState('')
 
@@ -243,6 +247,10 @@ window.__ModuleLoader__.load({
 
       const updateCount = rows.filter((r) => r.status === 'update' || r.status === 'source').length
       const installCount = rows.filter((r) => r.status === 'install').length
+      const keyword = query.trim().toLowerCase()
+      const visibleRows = keyword
+        ? rows.filter((r) => String(r.name || '').toLowerCase().indexOf(keyword) !== -1)
+        : rows
 
       return h('div', { className: 'om-wrap' },
         h('div', { className: 'om-head' },
@@ -302,16 +310,29 @@ window.__ModuleLoader__.load({
 
         msg ? h('div', { className: 'om-msg ' + (msgKind === 'ok' ? 'om-msg-ok' : 'om-msg-err'), role: 'status' }, msg) : null,
 
-        h('div', { className: 'om-sub' },
-          '扫描 ' + scanned + ' 个 tgz' + (skipped ? '，跳过 ' + skipped + ' 个无效文件' : '') +
-          ' · 可更新 ' + updateCount + ' · 可安装 ' + installCount
+        h('div', { className: 'om-toolbar' },
+          h('div', { className: 'om-sub om-toolbar-stat' },
+            '扫描 ' + scanned + ' 个 tgz' + (skipped ? '，跳过 ' + skipped + ' 个无效文件' : '') +
+            ' · 可更新 ' + updateCount + ' · 可安装 ' + installCount +
+            (keyword ? ' · 匹配 ' + visibleRows.length : '')
+          ),
+          h('input', {
+            className: 'om-input om-search',
+            value: query,
+            placeholder: '搜索插件名',
+            'aria-label': '搜索插件名',
+            onChange: (event) => setQuery(event.target.value),
+            onKeyDown: (event) => { if (event.key === 'Escape') setQuery('') },
+          })
         ),
 
         loading
           ? h('div', { className: 'om-empty' }, '正在读取…')
           : rows.length === 0
             ? h('div', { className: 'om-empty' }, dir ? '目录里没有可安装或可更新的插件。' : '请先设置本地 tgz 目录。')
-            : h('div', { className: 'om-list' }, rows.map((row) => {
+            : visibleRows.length === 0
+              ? h('div', { className: 'om-empty' }, '没有匹配「' + query.trim() + '」的插件。')
+              : h('div', { className: 'om-list' }, visibleRows.map((row) => {
                 const isUpdatable = row.status === 'update' || row.status === 'source'
                 const tag = row.status === 'update'
                   ? h('span', { className: 'om-tag om-tag-update' }, '有本地新包')

@@ -13,6 +13,7 @@
      - `未安装` — 目录里有但本机没装 → 「安装」按钮
      - `已最新` — 来源与本地都没有更高版本（无主按钮）
   - 每一行末尾都有「卸载」按钮，可卸载对应插件（保留本地 tgz，便于之后重装）。
+  - 列表上方有「搜索插件名」输入框，按包名即时过滤（不区分大小写，Esc 清空）；过滤时统计行会显示匹配数量。
 - 从远程 URL 装的插件，其来源 URL 会记录在 tgz 目录内的 `.dsh-offline-market.json`；刷新时即按该地址检查版本，「从源更新」就是重新下载这个地址（`latest` 或固定 URL 都可用），不必事先把新包放进目录。
 - 所有安装/更新都用 `file:<tgz绝对路径>` spec 调用 `pluginManager.installBundle(spec, { enabled: true })`：零网络下载、运行时依赖来自 pnpm 内容寻址 store 的硬链接。
 - 升级无需卸载旧版：新版本 `file:` spec 覆盖旧版是 pnpm 原子替换（+1 −1），desktop profile 无 HMR，`installBundle` 允许同包不同 spec 覆盖。
