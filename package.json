@@ -1,7 +1,6 @@
 {
   "name": "dsh-offline-market",
   "version": "1.1.0",
-  "private": true,
   "description": "离线插件市场：本地 tgz 安装/更新，远程 tgz 先下载到本地再装，来源显示为本地路径。 · Offline plugin market: install/update from local tgz; remote tgz is downloaded locally first so the source shows a local path.",
   "type": "module",
   "main": "index.js",
@@ -22,6 +21,25 @@
     "README.md"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halcyon6669/dsh-offline-market.git"
+  },
+  "homepage": "https://github.com/halcyon6669/dsh-offline-market#readme",
+  "bugs": "https://github.com/halcyon6669/dsh-offline-market/issues",
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "plugin-market",
+    "offline-market",
+    "offline-install",
+    "tgz",
+    "plugin-manager"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "dsh": {
     "manifestVersion": 1,
     "bundle": {

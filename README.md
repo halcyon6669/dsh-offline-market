@@ -21,10 +21,16 @@
 
 ## 安装
 
-用 DSH 的「插件 → 添加插件」选本目录，或：
+从 npm 安装（`dsh plugin add` 接受包名）：
 
 ```
-dsh plugin add <本目录的绝对路径>
+dsh plugin add dsh-offline-market
+```
+
+或先 `npm pack` / 从 Releases 下载 tgz，再用 DSH 的「插件 → 添加插件」选本地 tgz/目录：
+
+```
+dsh plugin add <tgz 绝对路径>
 ```
 
 ## 使用约定
