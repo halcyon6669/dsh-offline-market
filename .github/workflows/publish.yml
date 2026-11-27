@@ -57,24 +57,42 @@ jobs:
           fi
           echo "publishing ${version}"
 
+      - name: Skip if this version is already on npm
+        id: check_published
+        run: |
+          set -euo pipefail
+          version="$(node -p "require('./package.json').version")"
+          live="$(npm view "dsh-offline-market@${version}" version --prefer-online 2>/dev/null || true)"
+          if [ "$live" = "$version" ]; then
+            echo "dsh-offline-market@${version} is already published; nothing to do."
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Syntax check the bundle sources
+        if: steps.check_published.outputs.already_published != 'true'
         run: |
           set -euo pipefail
           node --check index.js
           node --check client.js
 
       - name: Run the offline unit checks
+        if: steps.check_published.outputs.already_published != 'true'
         run: node test-offline-market.cjs
 
       - name: Show what will be published
+        if: steps.check_published.outputs.already_published != 'true'
         run: npm pack --dry-run
 
       - name: Publish
+        if: steps.check_published.outputs.already_published != 'true'
         # Provenance is generated automatically for trusted publishing from a
         # public repo; the explicit flag is harmless and documents intent.
         run: npm publish --access public --provenance
 
       - name: Verify the release landed
+        if: steps.check_published.outputs.already_published != 'true'
         run: |
           set -euo pipefail
           version="$(node -p "require('./package.json').version")"
