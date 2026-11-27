@@ -1,4 +1,4 @@
-/** Host half of @local/dsh-offline-market — the unified offline plugin manager.
+/** Host half of dsh-offline-market — the unified offline plugin manager.
  *
  * The user-configured tgz directory serves two purposes:
  *   1. Remote tgz URLs are downloaded into it and installed from the LOCAL `file:`

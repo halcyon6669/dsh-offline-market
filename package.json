@@ -1,5 +1,5 @@
 {
-  "name": "@local/dsh-offline-market",
+  "name": "dsh-offline-market",
   "version": "1.0.0",
   "private": true,
   "description": "离线插件市场：本地 tgz 安装/更新，远程 tgz 先下载到本地再装，来源显示为本地路径。 · Offline plugin market: install/update from local tgz; remote tgz is downloaded locally first so the source shows a local path.",

@@ -1,4 +1,4 @@
-# @local/dsh-offline-market
+# dsh-offline-market
 
 离线插件市场（合并版）：把「从 URL 安装」和「本地 tgz 更新/安装」合到「插件」页的同一个标签页里。远程 tgz 会先下载到本地目录，再用 `file:` 本地路径安装，因此 profile 里的来源显示为本地路径，而不是远程 URL。
 

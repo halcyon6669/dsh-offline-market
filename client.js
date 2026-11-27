@@ -1,11 +1,11 @@
 window.__ModuleLoader__.load({
-  id: '@local/dsh-offline-market',
+  id: 'dsh-offline-market',
   factory: function (require) {
     const React = require('react')
     const h = React.createElement
     const { useState, useEffect, useCallback } = React
 
-    const TAG_ID = '@local/dsh-offline-market'
+    const TAG_ID = 'dsh-offline-market'
     const API = '/plugins/offline-market/api'
 
     const CSS = `

@@ -1,4 +1,4 @@
-/* Headless tests for @local/dsh-offline-market (merged plugin).
+/* Headless tests for dsh-offline-market (merged plugin).
  * - Host half: load real index.js with stubbed node:fs/zlib/cordis services.
  * - Client half: load real client.js in a vm with a tiny React hook shim.
  * No DSH instance required.
@@ -8,7 +8,9 @@ const path = require('path');
 const assert = require('assert');
 const zlib = require('zlib');
 
-const DIR = path.join(__dirname, 'dsh-offline-market');
+const DIR = fs.existsSync(path.join(__dirname, 'index.js'))
+  ? __dirname
+  : path.join(__dirname, 'dsh-offline-market');
 const hostSrc = fs.readFileSync(path.join(DIR, 'index.js'), 'utf8');
 const clientSrc = fs.readFileSync(path.join(DIR, 'client.js'), 'utf8');
 
@@ -331,7 +333,7 @@ const fetchStub = async (url) => {
     console.log('\nClient half:');
     ok('client.js loads as a module', () => {
       assert.ok(/window\.__ModuleLoader__\.load/.test(clientSrc));
-      assert.ok(/id: '@local\/dsh-offline-market'/.test(clientSrc));
+      assert.ok(/id: 'dsh-offline-market'/.test(clientSrc));
     });
     ok('injects only slots', () => assert.ok(/inject: \['slots'\]/.test(clientSrc)));
     ok('registers plugins.tab with own id and order', () => {
